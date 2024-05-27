@@ -12,3 +12,9 @@ class MovieDataRequested extends MovieEvent {
 
   final String id;
 }
+
+class MovieReviewsRequested extends MovieEvent {
+  const MovieReviewsRequested({required this.id});
+
+  final String id;
+}

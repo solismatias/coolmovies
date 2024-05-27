@@ -11,6 +11,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   })  : _movieRepository = movieRepository,
         super(HomeInitial()) {
     on<MovieDataRequested>(_onMovieRequested);
+    on<MovieReviewsRequested>(_onReviewsRequested);
   }
   final MoviesRepository _movieRepository;
 
@@ -28,6 +29,23 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       ));
     } catch (e) {
       emit(state.copyWith(status: MovieStatus.failure));
+    }
+  }
+
+  Future<void> _onReviewsRequested(
+    event,
+    emit,
+  ) async {
+    emit(state.copyWith(reviewStatus: MovieStatus.loading));
+    try {
+      List<ReviewModel> reviews = await _movieRepository.getMovieReviews(event.id);
+
+      emit(state.copyWith(
+        reviews: reviews,
+        reviewStatus: MovieStatus.success,
+      ));
+    } catch (e) {
+      emit(state.copyWith(reviewStatus: MovieStatus.failure));
     }
   }
 }
