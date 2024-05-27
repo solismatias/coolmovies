@@ -43,4 +43,39 @@ class MoviesRepository {
       throw Exception(e);
     }
   }
+
+  Future<MovieModel> getMovie(String id) async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          document: gql("""
+          query MyQuery(\$id: UUID!) {
+            movieById(id: \$id) {
+              id
+              imgUrl
+              title
+              releaseDate
+              movieDirectorByMovieDirectorId {
+                age
+                id
+                name
+              }
+            }
+          }
+          """),
+          variables: {
+            'id': id,
+          },
+        ),
+      );
+
+      if (result.hasException) throw Exception(result.exception);
+
+      var movieData = result.data!['movieById'];
+      print(movieData);
+      return MovieModel.fromMap(map: movieData);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }
