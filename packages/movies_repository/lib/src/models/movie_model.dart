@@ -6,6 +6,7 @@ class MovieModel {
   final String? directorId;
   final int? directorAge;
   final String? directorName;
+  final List<String>? reviewIds;
 
   const MovieModel({
     required this.id,
@@ -15,6 +16,7 @@ class MovieModel {
     this.directorId = '',
     this.directorAge = 0,
     this.directorName = '',
+    this.reviewIds = const [],
   });
 
   static MovieModel fromMap({required Map map}) => MovieModel(
@@ -25,7 +27,17 @@ class MovieModel {
         directorId: map['movieDirectorByMovieDirectorId']?['id'],
         directorAge: map['movieDirectorByMovieDirectorId']?['age'],
         directorName: map['movieDirectorByMovieDirectorId']?['name'],
+        reviewIds: _getReviewIds(map),
       );
 
   static const empty = MovieModel(id: '', imgUrl: '', title: '');
+}
+
+List<String> _getReviewIds(map) {
+  List<String> reviewIds = [];
+  if (map['movieReviewsByMovieId']?['edges'] == null) return reviewIds;
+  for (var edge in map['movieReviewsByMovieId']?['edges']) {
+    reviewIds.add(edge['node']['id']);
+  }
+  return reviewIds;
 }

@@ -60,6 +60,13 @@ class MoviesRepository {
                 id
                 name
               }
+              movieReviewsByMovieId {
+                  edges {
+                      node {
+                          id
+                      }
+                  }
+              }
             }
           }
           """),
