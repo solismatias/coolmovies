@@ -3,7 +3,7 @@ class MovieModel {
   final String imgUrl;
   final String title;
 
-  MovieModel({
+  const MovieModel({
     required this.id,
     required this.imgUrl,
     required this.title,
@@ -14,4 +14,6 @@ class MovieModel {
         imgUrl: map['imgUrl'],
         title: map['title'],
       );
+
+  static const empty = MovieModel(id: '', imgUrl: '', title: '');
 }
