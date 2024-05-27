@@ -18,7 +18,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     event,
     emit,
   ) async {
-    List<MovieModel> movies = await _movieRepository.getMovies();
-    emit(state.copyWith(movies: movies));
+    emit(state.copyWith(status: HomeMoviesStatus.loading));
+    try {
+      List<MovieModel> movies = await _movieRepository.getMovies();
+
+      emit(state.copyWith(
+        movies: movies,
+        status: HomeMoviesStatus.success,
+      ));
+    } catch (e) {
+      emit(state.copyWith(status: HomeMoviesStatus.failure));
+    }
   }
 }

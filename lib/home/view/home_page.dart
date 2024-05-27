@@ -27,11 +27,14 @@ class _HomePage extends StatelessWidget {
               child: Column(
             children: [
               const Text('Home Page'),
-              Column(
-                children: [
-                  for (var movie in state.movies) Text(movie.title),
-                ],
-              )
+              if (state.status == HomeMoviesStatus.loading) const CircularProgressIndicator(),
+              if (state.status == HomeMoviesStatus.success)
+                Column(
+                  children: [
+                    for (var movie in state.movies) Text(movie.title),
+                  ],
+                ),
+              if (state.status == HomeMoviesStatus.failure) const Text('Something went wrong')
             ],
           ));
         },
