@@ -1,4 +1,4 @@
-import 'package:coolmovies/home/bloc/home_bloc.dart';
+import 'package:coolmovies/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_repository/movies_repository.dart';
@@ -29,10 +29,18 @@ class _HomePage extends StatelessWidget {
               const Text('Home Page'),
               if (state.status == HomeMoviesStatus.loading) const CircularProgressIndicator(),
               if (state.status == HomeMoviesStatus.success)
-                Column(
-                  children: [
-                    for (var movie in state.movies) Text(movie.title),
-                  ],
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: state.movies.length,
+                    itemBuilder: (context, index) {
+                      final movie = state.movies[index];
+                      return HomeMovieCard(
+                        title: movie.title,
+                        imageUrl: movie.imgUrl,
+                        onTap: () {},
+                      );
+                    },
+                  ),
                 ),
               if (state.status == HomeMoviesStatus.failure) const Text('Something went wrong')
             ],
