@@ -19,7 +19,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit,
   ) async {
     List<MovieModel> movies = await _movieRepository.getMovies();
-    print(movies);
     emit(state.copyWith(movies: movies));
   }
 }
