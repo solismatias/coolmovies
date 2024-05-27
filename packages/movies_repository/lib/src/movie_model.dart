@@ -4,7 +4,7 @@ class MovieModel {
   final String title;
   final String? releaseDate;
   final String? directorId;
-  final String? directorAge;
+  final int? directorAge;
   final String? directorName;
 
   const MovieModel({
@@ -13,7 +13,7 @@ class MovieModel {
     required this.title,
     this.releaseDate = '',
     this.directorId = '',
-    this.directorAge = '',
+    this.directorAge = 0,
     this.directorName = '',
   });
 
@@ -22,9 +22,9 @@ class MovieModel {
         imgUrl: map['imgUrl'],
         title: map['title'],
         releaseDate: map['releaseDate'],
-        directorId: map['directorId'],
-        directorAge: map['directorAge'],
-        directorName: map['directorName'],
+        directorId: map['movieDirectorByMovieDirectorId']?['id'],
+        directorAge: map['movieDirectorByMovieDirectorId']?['age'],
+        directorName: map['movieDirectorByMovieDirectorId']?['name'],
       );
 
   static const empty = MovieModel(id: '', imgUrl: '', title: '');
