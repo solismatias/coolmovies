@@ -28,14 +28,14 @@ class MoviesRepository {
         ),
       );
 
-      List res = result.data!['allMovies'] ?? [];
+      List res = result.data!['allMovies']['edges'] ?? [];
 
       if (result.hasException) throw Exception(result.exception);
 
       List<MovieModel> movies = [];
 
       for (var movie in res) {
-        movies.add(MovieModel.fromMap(map: movie));
+        movies.add(MovieModel.fromMap(map: movie['node']));
       }
 
       return movies;
