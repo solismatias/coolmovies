@@ -72,7 +72,6 @@ class MoviesRepository {
       if (result.hasException) throw Exception(result.exception);
 
       var movieData = result.data!['movieById'];
-      print(movieData);
       return MovieModel.fromMap(map: movieData);
     } catch (e) {
       throw Exception(e);
