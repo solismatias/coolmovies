@@ -32,6 +32,8 @@ dependencies:
   flutter:
     sdk: flutter
   graphql_flutter: ^5.1.2
+  movies_repository:
+    path: packages/movies_repository
 
 dev_dependencies:
 
