@@ -1,0 +1,10 @@
+name: movies_repository
+description: A repository that handles movie related requests.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  graphql_flutter: ^5.1.2
