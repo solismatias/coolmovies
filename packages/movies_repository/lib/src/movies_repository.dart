@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:movies_repository/src/graphql_config.dart';
-import 'package:movies_repository/src/models/movie_model.dart';
-import 'package:movies_repository/src/models/review_model.dart';
+import 'package:movies_repository/movies_repository.dart';
 
 class MoviesRepository {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
