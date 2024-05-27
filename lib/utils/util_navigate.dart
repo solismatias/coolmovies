@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class UtilNavigate {
   static to(context, page) {
-    return Navigator.pushReplacement(
+    return Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => page),
     );
