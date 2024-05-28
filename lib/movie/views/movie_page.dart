@@ -20,14 +20,14 @@ class MoviePage extends StatelessWidget {
         ..add(MovieReviewsRequested(id: movie.id)),
       child: Scaffold(body: BlocBuilder<MovieBloc, MovieState>(
         builder: (context, state) {
-          return Column(
-            children: [
-              const Text('Movie Page'),
-              if (state.status == MovieStatus.loading) const CircularProgressIndicator(),
-              if (state.status == MovieStatus.failure) const Text('Something went wrong'),
-              if (state.status == MovieStatus.success)
-                Expanded(
-                  child: Column(
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                const Text('Movie Page'),
+                if (state.status == MovieStatus.loading) const CircularProgressIndicator(),
+                if (state.status == MovieStatus.failure) const Text('Something went wrong'),
+                if (state.status == MovieStatus.success)
+                  Column(
                     children: [
                       HomeMovieCard(
                         imageUrl: state.movie.imgUrl,
@@ -40,25 +40,31 @@ class MoviePage extends StatelessWidget {
                       Text(state.movie.directorName ?? ''),
                       Text(state.movie.directorAge.toString()),
                       BackButton(onPressed: () => UtilNavigate.goBack(context)),
+                      const Text('Create A Review:'),
+                      MovieReviewForm(
+                          movieId: movie.id,
+                          onSubmit: (review) {
+                            print(review);
+                          }),
                       const Text('Reviews:'),
                       if (state.reviewStatus == MovieStatus.success)
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: state.reviews.length,
-                            itemBuilder: (context, index) {
-                              final review = state.reviews[index];
-                              return MovieReviewCard(
-                                title: review.title,
-                                body: review.body,
-                                rating: review.rating,
-                              );
-                            },
-                          ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: state.reviews.length,
+                          itemBuilder: (context, index) {
+                            final review = state.reviews[index];
+                            return MovieReviewCard(
+                              title: review.title,
+                              body: review.body,
+                              rating: review.rating,
+                            );
+                          },
                         ),
                     ],
                   ),
-                ),
-            ],
+              ],
+            ),
           );
         },
       )),
