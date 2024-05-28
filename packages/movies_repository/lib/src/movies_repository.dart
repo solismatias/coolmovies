@@ -125,4 +125,45 @@ class MoviesRepository {
       throw Exception(e);
     }
   }
+
+  Future<bool> createMovieReview(ReviewModel review) async {
+    try {
+      QueryResult result = await client.mutate(MutationOptions(
+        document: gql("""
+          mutation MyMutation(
+            \$title: String!, 
+            \$movieId: UUID!, 
+            \$userReviewerId: UUID!, 
+            \$rating: Int!, 
+            \$body: String!, 
+            \$clientMutationId: String!) {
+              createMovieReview(input: 
+                {movieReview: 
+                  {title: \$title, 
+                  movieId: \$movieId, 
+                  userReviewerId: \$userReviewerId, 
+                  rating: \$rating, 
+                  body: \$body
+                }, 
+                clientMutationId: \$clientMutationId}) 
+                {clientMutationId}
+          }
+        """),
+        variables: {
+          'title': review.title,
+          'movieId': review.movieId,
+          'userReviewerId': review.userReviewerId,
+          'rating': review.rating,
+          'body': review.body,
+          'clientMutationId': "${DateTime.now().millisecondsSinceEpoch}",
+        },
+      ));
+
+      if (result.hasException) throw Exception(result.exception);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

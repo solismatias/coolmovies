@@ -1,5 +1,5 @@
 class ReviewModel {
-  final String id;
+  final String? id;
   final String title;
   final String body;
   final int rating;
@@ -7,7 +7,7 @@ class ReviewModel {
   final String userReviewerId;
 
   const ReviewModel({
-    required this.id,
+    this.id,
     required this.title,
     required this.body,
     required this.rating,
