@@ -24,7 +24,7 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => UserBloc(movieRepository: context.read<MoviesRepository>()),
+      create: (context) => UserBloc(movieRepository: context.read<MoviesRepository>())..add(const UserCurrentDataRequested()),
       child: MaterialApp(
         title: 'Cool Movies',
         theme: ThemeData(
