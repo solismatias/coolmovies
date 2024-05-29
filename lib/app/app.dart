@@ -1,4 +1,5 @@
 import 'package:coolmovies/home/home.dart';
+import 'package:coolmovies/user/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_repository/movies_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,13 +23,16 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Cool Movies',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      create: (context) => UserBloc(movieRepository: context.read<MoviesRepository>()),
+      child: MaterialApp(
+        title: 'Cool Movies',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        debugShowCheckedModeBanner: false,
+        home: const HomePage(),
       ),
-      debugShowCheckedModeBanner: false,
-      home: const HomePage(),
     );
   }
 }

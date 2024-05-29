@@ -11,15 +11,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => UserBloc(movieRepository: context.read<MoviesRepository>())..add(const UserCurrentDataRequested()),
-        ),
-        BlocProvider(
-          create: (context) => HomeBloc(movieRepository: context.read<MoviesRepository>())..add(const HomeAllMoviesRequested()),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => HomeBloc(movieRepository: context.read<MoviesRepository>())..add(const HomeAllMoviesRequested()),
       child: const _HomePage(),
     );
   }
