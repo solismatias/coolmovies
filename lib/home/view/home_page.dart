@@ -4,14 +4,22 @@ import 'package:coolmovies/utils/util_navigate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_repository/movies_repository.dart';
+import 'package:coolmovies/user/bloc/user_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeBloc(movieRepository: context.read<MoviesRepository>())..add(const HomeAllMoviesRequested()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => UserBloc(movieRepository: context.read<MoviesRepository>())..add(const UserCurrentDataRequested()),
+        ),
+        BlocProvider(
+          create: (context) => HomeBloc(movieRepository: context.read<MoviesRepository>())..add(const HomeAllMoviesRequested()),
+        ),
+      ],
       child: const _HomePage(),
     );
   }
@@ -28,6 +36,11 @@ class _HomePage extends StatelessWidget {
           return Center(
               child: Column(
             children: [
+              BlocBuilder<UserBloc, UserState>(
+                builder: (context, state) {
+                  return Text(state.user.name);
+                },
+              ),
               const Text('Home Page'),
               if (state.status == HomeMoviesStatus.loading) const CircularProgressIndicator(),
               if (state.status == HomeMoviesStatus.success)
