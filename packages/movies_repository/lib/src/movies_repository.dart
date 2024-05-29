@@ -166,4 +166,29 @@ class MoviesRepository {
       return false;
     }
   }
+
+  Future<UserModel> getCurrentUser() async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          document: gql("""
+          query MyQuery {
+            currentUser {
+              name
+              id
+            }
+          }
+          """),
+        ),
+      );
+
+      if (result.hasException) throw Exception(result.exception);
+
+      var userData = result.data!['currentUser'];
+      UserModel user = UserModel.fromMap(map: userData);
+      return user;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }
