@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_repository/movies_repository.dart';
 import 'package:coolmovies/user/bloc/user_bloc.dart';
+import 'package:coolmovies/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class _HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const MyAppBar(showBackButton: false),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           return Center(
