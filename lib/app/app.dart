@@ -28,7 +28,9 @@ class AppView extends StatelessWidget {
       child: MaterialApp(
         title: 'Cool Movies',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          brightness: Brightness.dark,
+          primaryColor: const Color(0xFFBB0A21),
+          scaffoldBackgroundColor: Colors.black,
         ),
         debugShowCheckedModeBanner: false,
         home: const HomePage(),
