@@ -54,7 +54,6 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     emit(state.copyWith(reviewSubmitStatus: MovieStatus.loading));
 
     bool isSuccessful = await _movieRepository.createMovieReview(event.review);
-    print(isSuccessful);
     emit(state.copyWith(reviewSubmitStatus: isSuccessful ? MovieStatus.success : MovieStatus.failure));
   }
 }
