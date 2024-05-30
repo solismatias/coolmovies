@@ -1,3 +1,4 @@
+import 'package:coolmovies/common/constants/app_layout.dart';
 import 'package:coolmovies/home/home.dart';
 import 'package:coolmovies/movie/movie.dart';
 import 'package:coolmovies/common/utils/util_navigate.dart';
@@ -28,35 +29,38 @@ class _HomePage extends StatelessWidget {
       appBar: const MyAppBar(showBackButton: false),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          return Center(
-              child: Column(
-            children: [
-              BlocBuilder<UserBloc, UserState>(
-                builder: (context, state) {
-                  return Text(state.user.name);
-                },
-              ),
-              const Text('Home Page'),
-              if (state.status == HomeMoviesStatus.loading) const CircularProgressIndicator(),
-              if (state.status == HomeMoviesStatus.success)
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: state.movies.length,
-                    itemBuilder: (context, index) {
-                      final movie = state.movies[index];
-                      return HomeMovieCard(
-                        title: movie.title,
-                        imageUrl: movie.imgUrl,
-                        onTap: () {
-                          UtilNavigate.to(context, MoviePage(movie: movie));
-                        },
-                      );
-                    },
-                  ),
+          return Padding(
+            padding: const EdgeInsets.all(AppLayout.padding),
+            child: Center(
+                child: Column(
+              children: [
+                BlocBuilder<UserBloc, UserState>(
+                  builder: (context, state) {
+                    return Text(state.user.name);
+                  },
                 ),
-              if (state.status == HomeMoviesStatus.failure) const Text('Something went wrong')
-            ],
-          ));
+                const Text('Home Page'),
+                if (state.status == HomeMoviesStatus.loading) const CircularProgressIndicator(),
+                if (state.status == HomeMoviesStatus.success)
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: state.movies.length,
+                      itemBuilder: (context, index) {
+                        final movie = state.movies[index];
+                        return HomeMovieCard(
+                          title: movie.title,
+                          imageUrl: movie.imgUrl,
+                          onMoreButtonPressed: () {
+                            UtilNavigate.to(context, MoviePage(movie: movie));
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                if (state.status == HomeMoviesStatus.failure) const Text('Something went wrong')
+              ],
+            )),
+          );
         },
       ),
     );

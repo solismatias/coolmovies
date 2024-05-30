@@ -35,7 +35,7 @@ class MoviePage extends StatelessWidget {
                           HomeMovieCard(
                             imageUrl: state.movie.imgUrl,
                             title: state.movie.title,
-                            onTap: () {},
+                            onMoreButtonPressed: () {},
                           ),
                           const Text('release date:'),
                           Text(state.movie.releaseDate ?? ''),
