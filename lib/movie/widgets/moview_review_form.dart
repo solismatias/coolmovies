@@ -1,4 +1,6 @@
+import 'package:coolmovies/user/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_repository/movies_repository.dart';
 
 class MovieReviewForm extends StatefulWidget {
@@ -20,24 +22,23 @@ class _MovieReviewFormState extends State<MovieReviewForm> {
   final _titleController = TextEditingController();
   final _bodyController = TextEditingController();
   final _ratingController = TextEditingController();
-  final _userReviewerIdController = TextEditingController();
 
   @override
   void dispose() {
     _titleController.dispose();
     _bodyController.dispose();
     _ratingController.dispose();
-    _userReviewerIdController.dispose();
+
     super.dispose();
   }
 
-  void _submit() {
+  void _submit(context) {
     if (_formKey.currentState!.validate()) {
       final review = ReviewModel(
         title: _titleController.text,
         body: _bodyController.text,
         rating: int.parse(_ratingController.text),
-        userReviewerId: _userReviewerIdController.text,
+        userReviewerId: BlocProvider.of<UserBloc>(context).state.user.id,
         movieId: widget.movieId,
       );
 
@@ -88,19 +89,9 @@ class _MovieReviewFormState extends State<MovieReviewForm> {
                 return null;
               },
             ),
-            TextFormField(
-              controller: _userReviewerIdController,
-              decoration: const InputDecoration(labelText: 'User Reviewer ID'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter a user reviewer ID';
-                }
-                return null;
-              },
-            ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _submit,
+              onPressed: () => _submit(context),
               child: const Text('Submit Review'),
             ),
           ],

@@ -18,3 +18,9 @@ class MovieReviewsRequested extends MovieEvent {
 
   final String id;
 }
+
+class MovieReviewsSubmitPressed extends MovieEvent {
+  const MovieReviewsSubmitPressed({required this.review});
+
+  final ReviewModel review;
+}

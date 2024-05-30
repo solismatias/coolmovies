@@ -44,7 +44,7 @@ class MoviePage extends StatelessWidget {
                       MovieReviewForm(
                           movieId: movie.id,
                           onSubmit: (review) {
-                            print(review);
+                            context.read<MovieBloc>().add(MovieReviewsSubmitPressed(review: review));
                           }),
                       const Text('Reviews:'),
                       if (state.reviewStatus == MovieStatus.success)
