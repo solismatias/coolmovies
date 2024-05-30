@@ -1,3 +1,4 @@
+import 'package:coolmovies/common/constants/app_layout.dart';
 import 'package:coolmovies/common/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             )
           : Center(
               child: SizedBox(
-                height: 35,
+                height: AppLayout.logoSmall,
                 child: Image.asset('assets/logo.png'),
               ),
             ),

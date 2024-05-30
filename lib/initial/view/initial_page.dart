@@ -1,3 +1,4 @@
+import 'package:coolmovies/common/constants/app_layout.dart';
 import 'package:coolmovies/home/home.dart';
 import 'package:coolmovies/common/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +26,10 @@ class InitialPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: 45,
+                    width: AppLayout.logoMedium,
                     child: Image.asset('assets/logo.png'),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: AppLayout.spacingSmall),
                   Text(
                     'COOLMOVIES',
                     style: TextStyle(
@@ -39,7 +40,7 @@ class InitialPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: AppLayout.spacingLarge),
               CircularProgressIndicator(color: Theme.of(context).primaryColor),
             ],
           ),

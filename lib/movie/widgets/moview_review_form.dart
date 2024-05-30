@@ -1,3 +1,4 @@
+import 'package:coolmovies/common/constants/app_layout.dart';
 import 'package:coolmovies/user/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,7 +52,7 @@ class _MovieReviewFormState extends State<MovieReviewForm> {
     return Form(
       key: _formKey,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppLayout.padding),
         child: Column(
           children: [
             TextFormField(
@@ -89,7 +90,7 @@ class _MovieReviewFormState extends State<MovieReviewForm> {
                 return null;
               },
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: AppLayout.spacingMedium),
             ElevatedButton(
               onPressed: () => _submit(context),
               child: const Text('Submit Review'),

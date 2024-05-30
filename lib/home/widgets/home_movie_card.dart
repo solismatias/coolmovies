@@ -1,3 +1,4 @@
+import 'package:coolmovies/common/constants/app_layout.dart';
 import 'package:flutter/material.dart';
 
 class HomeMovieCard extends StatelessWidget {
@@ -27,7 +28,7 @@ class HomeMovieCard extends StatelessWidget {
             ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
               child: AspectRatio(
-                aspectRatio: 16 / 9,
+                aspectRatio: 4 / 5,
                 child: Image.network(
                   imageUrl,
                   fit: BoxFit.cover,
@@ -35,7 +36,7 @@ class HomeMovieCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(AppLayout.padding),
               child: Text(
                 title,
                 style: const TextStyle(

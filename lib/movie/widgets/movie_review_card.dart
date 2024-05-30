@@ -1,3 +1,4 @@
+import 'package:coolmovies/common/constants/app_layout.dart';
 import 'package:flutter/material.dart';
 
 class MovieReviewCard extends StatelessWidget {
@@ -20,7 +21,7 @@ class MovieReviewCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(AppLayout.padding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -31,14 +32,14 @@ class MovieReviewCard extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: AppLayout.spacingSmall),
             Text(
               body,
               style: const TextStyle(
                 fontSize: 16,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: AppLayout.spacingSmall),
             Row(
               children: List.generate(5, (index) {
                 return Icon(
