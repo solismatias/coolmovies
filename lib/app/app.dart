@@ -1,4 +1,4 @@
-import 'package:coolmovies/home/home.dart';
+import 'package:coolmovies/initial/initial.dart';
 import 'package:coolmovies/user/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_repository/movies_repository.dart';
@@ -33,7 +33,7 @@ class AppView extends StatelessWidget {
           scaffoldBackgroundColor: Colors.black,
         ),
         debugShowCheckedModeBanner: false,
-        home: const HomePage(),
+        home: const InitialPage(),
       ),
     );
   }
