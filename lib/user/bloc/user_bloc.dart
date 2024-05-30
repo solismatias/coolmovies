@@ -17,7 +17,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   _onCurrentUserRequested(event, emit) async {
     emit(state.copyWith(status: UserStatus.loading));
-
+    // delay time to apreciate initial screen
+    await Future.delayed(const Duration(seconds: 1));
     try {
       UserModel currentUser = await _movieRepository.getCurrentUser();
       emit(state.copyWith(
