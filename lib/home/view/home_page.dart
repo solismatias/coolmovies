@@ -1,11 +1,11 @@
 import 'package:coolmovies/home/home.dart';
 import 'package:coolmovies/movie/movie.dart';
-import 'package:coolmovies/utils/util_navigate.dart';
+import 'package:coolmovies/common/utils/util_navigate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_repository/movies_repository.dart';
 import 'package:coolmovies/user/bloc/user_bloc.dart';
-import 'package:coolmovies/widgets/widgets.dart';
+import 'package:coolmovies/common/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);

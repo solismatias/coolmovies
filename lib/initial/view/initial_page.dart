@@ -1,5 +1,5 @@
 import 'package:coolmovies/home/home.dart';
-import 'package:coolmovies/utils/utils.dart';
+import 'package:coolmovies/common/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:coolmovies/user/bloc/user_bloc.dart';

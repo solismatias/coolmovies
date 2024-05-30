@@ -1,4 +1,4 @@
-import 'package:coolmovies/utils/utils.dart';
+import 'package:coolmovies/common/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {

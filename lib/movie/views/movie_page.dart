@@ -1,7 +1,7 @@
 import 'package:coolmovies/home/home.dart';
 import 'package:coolmovies/movie/movie.dart';
-import 'package:coolmovies/utils/utils.dart';
-import 'package:coolmovies/widgets/my_app_bar.dart';
+import 'package:coolmovies/common/utils/utils.dart';
+import 'package:coolmovies/common/widgets/my_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_repository/movies_repository.dart';
