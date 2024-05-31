@@ -98,7 +98,10 @@ class MoviesRepository {
                   movieId
                   rating
                   title
-                  userReviewerId
+                  userByUserReviewerId {
+                    name
+                    id
+                  }
                 }
               }
             }

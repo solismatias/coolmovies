@@ -5,6 +5,7 @@ class ReviewModel {
   final int rating;
   final String movieId;
   final String userReviewerId;
+  final String userReviewerName;
 
   const ReviewModel({
     this.id,
@@ -13,6 +14,7 @@ class ReviewModel {
     required this.rating,
     required this.movieId,
     required this.userReviewerId,
+    this.userReviewerName = '',
   });
 
   static ReviewModel fromMap({required Map map}) => ReviewModel(
@@ -21,7 +23,8 @@ class ReviewModel {
         body: map['body'],
         rating: map['rating'],
         movieId: map['movieId'],
-        userReviewerId: map['userReviewerId'],
+        userReviewerId: map['userByUserReviewerId']['id'] ?? '',
+        userReviewerName: map['userByUserReviewerId']['name'] ?? '',
       );
 
   static const empty = ReviewModel(
@@ -31,5 +34,6 @@ class ReviewModel {
     rating: 0,
     movieId: '',
     userReviewerId: '',
+    userReviewerName: '',
   );
 }
