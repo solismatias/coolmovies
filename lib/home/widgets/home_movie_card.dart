@@ -5,12 +5,14 @@ class HomeMovieCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final VoidCallback onMoreButtonPressed;
+  final VoidCallback onAddReviewPressed;
 
   const HomeMovieCard({
     super.key,
     required this.imageUrl,
     required this.title,
     required this.onMoreButtonPressed,
+    required this.onAddReviewPressed,
   });
 
   @override
@@ -67,7 +69,7 @@ class HomeMovieCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: onAddReviewPressed,
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.zero,
                               backgroundColor: Colors.white,

@@ -23,6 +23,29 @@ class HomePage extends StatelessWidget {
 class _HomePage extends StatelessWidget {
   const _HomePage();
 
+  void _showAddReviewModal(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                MovieReviewForm(movieId: 'movieId', onSubmit: (s) {}),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,6 +73,9 @@ class _HomePage extends StatelessWidget {
                         return HomeMovieCard(
                           title: movie.title,
                           imageUrl: movie.imgUrl,
+                          onAddReviewPressed: () {
+                            _showAddReviewModal(context);
+                          },
                           onMoreButtonPressed: () {
                             UtilNavigate.to(context, MoviePage(movie: movie));
                           },

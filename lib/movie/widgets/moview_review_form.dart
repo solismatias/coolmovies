@@ -19,26 +19,29 @@ class MovieReviewForm extends StatefulWidget {
 }
 
 class _MovieReviewFormState extends State<MovieReviewForm> {
-  final _formKey = GlobalKey<FormState>();
-  final _titleController = TextEditingController();
-  final _bodyController = TextEditingController();
-  final _ratingController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final titleController = TextEditingController();
+  final bodyController = TextEditingController();
+  int rating = 0;
+  bool isRatingValid = true;
 
   @override
   void dispose() {
-    _titleController.dispose();
-    _bodyController.dispose();
-    _ratingController.dispose();
-
+    titleController.dispose();
+    bodyController.dispose();
     super.dispose();
   }
 
   void _submit(context) {
-    if (_formKey.currentState!.validate()) {
+    setState(() {
+      isRatingValid = rating >= 1 && rating <= 5;
+    });
+
+    if (formKey.currentState!.validate() && isRatingValid) {
       final review = ReviewModel(
-        title: _titleController.text,
-        body: _bodyController.text,
-        rating: int.parse(_ratingController.text),
+        title: titleController.text,
+        body: bodyController.text,
+        rating: rating,
         userReviewerId: BlocProvider.of<UserBloc>(context).state.user.id,
         movieId: widget.movieId,
       );
@@ -50,14 +53,32 @@ class _MovieReviewFormState extends State<MovieReviewForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Padding(
         padding: const EdgeInsets.all(AppLayout.padding),
         child: Column(
           children: [
+            _StarRow(
+                selectedStars: rating,
+                onStarTapped: (newRating) {
+                  setState(() {
+                    rating = newRating;
+                  });
+                }),
+            if (!isRatingValid)
+              Text(
+                'Please select a rating',
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
+            const SizedBox(height: AppLayout.spacingMedium),
             TextFormField(
-              controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
+              controller: titleController,
+              decoration: InputDecoration(
+                labelText: 'Title',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a title';
@@ -65,39 +86,70 @@ class _MovieReviewFormState extends State<MovieReviewForm> {
                 return null;
               },
             ),
+            const SizedBox(height: AppLayout.spacingMedium),
             TextFormField(
-              controller: _bodyController,
-              decoration: const InputDecoration(labelText: 'Body'),
+              controller: bodyController,
+              maxLines: 3,
+              decoration: InputDecoration(
+                labelText: 'Opinion',
+                hintMaxLines: 4,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter a body';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _ratingController,
-              decoration: const InputDecoration(labelText: 'Rating'),
-              keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter a rating';
-                }
-                final rating = int.tryParse(value);
-                if (rating == null || rating < 1 || rating > 5) {
-                  return 'Please enter a valid rating (1-5)';
+                  return 'Please enter an opinion';
                 }
                 return null;
               },
             ),
             const SizedBox(height: AppLayout.spacingMedium),
-            ElevatedButton(
-              onPressed: () => _submit(context),
-              child: const Text('Submit Review'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () => _submit(context),
+                  child: const Text('Send'),
+                ),
+              ],
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _StarRow extends StatelessWidget {
+  const _StarRow({
+    required this.selectedStars,
+    required this.onStarTapped,
+  });
+
+  final int selectedStars;
+  final Function(int) onStarTapped;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(
+          5,
+          (index) => GestureDetector(
+                onTap: () => onStarTapped(index + 1),
+                child: Icon(
+                  index < selectedStars ? Icons.star : Icons.star_border,
+                  color: Colors.yellow,
+                  size: 40,
+                ),
+              )),
     );
   }
 }
