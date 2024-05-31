@@ -39,7 +39,7 @@ class MoviePage extends StatelessWidget {
                               children: [
                                 _Title(movie: state.movie),
                                 const SizedBox(height: AppLayout.spacingSmall),
-                                const RatingSquare(ratings: [4, 3]),
+                                RatingSquare(ratings: state.reviews.map((review) => review.rating).toList()),
                                 const SizedBox(height: AppLayout.spacingSmall),
                                 _MoreInfo(movie: state.movie),
                                 const SizedBox(height: AppLayout.spacingSmall),
