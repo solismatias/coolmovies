@@ -25,6 +25,15 @@ class MovieReviewCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Row(
+              children: List.generate(5, (index) {
+                return Icon(
+                  index < rating ? Icons.star : Icons.star_border,
+                  color: Colors.amber,
+                );
+              }),
+            ),
+            const SizedBox(height: AppLayout.spacingSmall),
             Text(
               title,
               style: const TextStyle(
@@ -38,15 +47,6 @@ class MovieReviewCard extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 16,
               ),
-            ),
-            const SizedBox(height: AppLayout.spacingSmall),
-            Row(
-              children: List.generate(5, (index) {
-                return Icon(
-                  index < rating ? Icons.star : Icons.star_border,
-                  color: Colors.amber,
-                );
-              }),
             ),
           ],
         ),
