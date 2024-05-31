@@ -48,13 +48,13 @@ class RatingSquare extends StatelessWidget {
             ),
           ),
         ),
-        Text(
+        const Text(
           'User rating',
           style: TextStyle(fontSize: 18),
         ),
         Text(
           emoji,
-          style: TextStyle(fontSize: 24),
+          style: const TextStyle(fontSize: 24),
         ),
       ],
     );
