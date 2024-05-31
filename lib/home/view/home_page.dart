@@ -77,7 +77,7 @@ class _HomePage extends StatelessWidget {
                             _showAddReviewModal(context);
                           },
                           onMoreButtonPressed: () {
-                            UtilNavigate.to(context, MoviePage(movie: movie));
+                            UtilNavigate.to(context, MoviePage(movieId: movie.id));
                           },
                         );
                       },

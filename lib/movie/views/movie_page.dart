@@ -9,16 +9,16 @@ import 'package:movies_repository/movies_repository.dart';
 class MoviePage extends StatelessWidget {
   const MoviePage({
     Key? key,
-    required this.movie,
+    required this.movieId,
   }) : super(key: key);
-  final MovieModel movie;
+  final String movieId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MovieBloc(movieRepository: context.read<MoviesRepository>())
-        ..add(MovieDataRequested(id: movie.id))
-        ..add(MovieReviewsRequested(id: movie.id)),
+        ..add(MovieDataRequested(id: movieId))
+        ..add(MovieReviewsRequested(id: movieId)),
       child: Scaffold(
           appBar: const MyAppBar(),
           body: BlocBuilder<MovieBloc, MovieState>(
