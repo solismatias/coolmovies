@@ -21,97 +21,106 @@ class MoviePage extends StatelessWidget {
         ..add(MovieReviewsRequested(id: movieId)),
       child: Scaffold(
           appBar: const MyAppBar(),
-          body: BlocBuilder<MovieBloc, MovieState>(
-            builder: (context, state) {
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    if (state.status == MovieStatus.loading) const CircularProgressIndicator(),
-                    if (state.status == MovieStatus.failure) const Text('Something went wrong'),
-                    if (state.status == MovieStatus.success && state.reviewStatus == MovieStatus.success)
-                      Column(
-                        children: [
-                          _MoviePoster(imgUrl: state.movie.imgUrl),
-                          Padding(
-                            padding: const EdgeInsets.all(AppLayout.padding),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _Title(movie: state.movie),
-                                const SizedBox(height: AppLayout.spacingSmall),
-                                RatingSquare(ratings: state.reviews.map((review) => review.rating).toList()),
-                                const SizedBox(height: AppLayout.spacingSmall),
-                                _MoreInfo(movie: state.movie),
-                                const SizedBox(height: AppLayout.spacingSmall),
-                                const Divider(),
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(8.0),
-                                      decoration: const BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(
-                                            color: Colors.white,
-                                            width: 2.0,
+          body: BlocListener<MovieBloc, MovieState>(
+            listener: (context, state) {
+              if (state.reviewSubmitStatus == MovieStatus.success) {
+                showFeedback(true);
+              } else if (state.reviewSubmitStatus == MovieStatus.failure) {
+                showFeedback(false);
+              }
+            },
+            child: BlocBuilder<MovieBloc, MovieState>(
+              builder: (context, state) {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      if (state.status == MovieStatus.loading) const CircularProgressIndicator(),
+                      if (state.status == MovieStatus.failure) const Text('Something went wrong'),
+                      if (state.status == MovieStatus.success && state.reviewStatus == MovieStatus.success)
+                        Column(
+                          children: [
+                            _MoviePoster(imgUrl: state.movie.imgUrl),
+                            Padding(
+                              padding: const EdgeInsets.all(AppLayout.padding),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _Title(movie: state.movie),
+                                  const SizedBox(height: AppLayout.spacingSmall),
+                                  RatingSquare(ratings: state.reviews.map((review) => review.rating).toList()),
+                                  const SizedBox(height: AppLayout.spacingSmall),
+                                  _MoreInfo(movie: state.movie),
+                                  const SizedBox(height: AppLayout.spacingSmall),
+                                  const Divider(),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(8.0),
+                                        decoration: const BoxDecoration(
+                                          border: Border(
+                                            bottom: BorderSide(
+                                              color: Colors.white,
+                                              width: 2.0,
+                                            ),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          'Reviews',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                         ),
                                       ),
-                                      child: const Text(
-                                        'Reviews',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
+                                      const Spacer(),
+                                      ElevatedButton(
+                                        onPressed: () async {
+                                          ReviewModel? newReview = await showAddReviewModal(
+                                            context: context,
+                                            movieId: state.movie.id,
+                                          );
+                                          if (newReview != null && context.mounted) {
+                                            context.read<MovieBloc>().add(MovieReviewsSubmitPressed(review: newReview));
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Theme.of(context).primaryColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(5),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          "Add a review",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            height: 1,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    const Spacer(),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        ReviewModel? newReview = await showAddReviewModal(
-                                          context: context,
-                                          movieId: state.movie.id,
-                                        );
-                                        if (newReview != null && context.mounted) {
-                                          context.read<MovieBloc>().add(MovieReviewsSubmitPressed(review: newReview));
-                                        }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Theme.of(context).primaryColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(5),
-                                        ),
-                                      ),
-                                      child: const Text(
-                                        "Add a review",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                          height: 1,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                if (state.reviewStatus == MovieStatus.success)
-                                  ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: state.reviews.length,
-                                    itemBuilder: (context, index) {
-                                      final review = state.reviews[index];
-                                      return MovieReviewCard(review: review);
-                                    },
+                                    ],
                                   ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                  ],
-                ),
-              );
-            },
+                                  if (state.reviewStatus == MovieStatus.success)
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      itemCount: state.reviews.length,
+                                      itemBuilder: (context, index) {
+                                        final review = state.reviews[index];
+                                        return MovieReviewCard(review: review);
+                                      },
+                                    ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                    ],
+                  ),
+                );
+              },
+            ),
           )),
     );
   }
