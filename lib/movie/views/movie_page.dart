@@ -28,7 +28,7 @@ class MoviePage extends StatelessWidget {
                   children: [
                     if (state.status == MovieStatus.loading) const CircularProgressIndicator(),
                     if (state.status == MovieStatus.failure) const Text('Something went wrong'),
-                    if (state.status == MovieStatus.success)
+                    if (state.status == MovieStatus.success && state.reviewStatus == MovieStatus.success)
                       Column(
                         children: [
                           _MoviePoster(imgUrl: state.movie.imgUrl),
