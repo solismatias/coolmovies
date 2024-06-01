@@ -71,6 +71,9 @@ class MoviePage extends StatelessWidget {
                                           context: context,
                                           movieId: state.movie.id,
                                         );
+                                        if (newReview != null && context.mounted) {
+                                          context.read<MovieBloc>().add(MovieReviewsSubmitPressed(review: newReview));
+                                        }
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Theme.of(context).primaryColor,

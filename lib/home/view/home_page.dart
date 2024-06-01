@@ -13,8 +13,15 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeBloc(movieRepository: context.read<MoviesRepository>())..add(const HomeAllMoviesRequested()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => HomeBloc(movieRepository: context.read<MoviesRepository>())..add(const HomeAllMoviesRequested()),
+        ),
+        BlocProvider(
+          create: (context) => MovieBloc(movieRepository: context.read<MoviesRepository>()),
+        ),
+      ],
       child: const _HomePage(),
     );
   }
@@ -55,6 +62,9 @@ class _HomePage extends StatelessWidget {
                               context: context,
                               movieId: movie.id,
                             );
+                            if (newReview != null && context.mounted) {
+                              context.read<MovieBloc>().add(MovieReviewsSubmitPressed(review: newReview));
+                            }
                           },
                           onMoreButtonPressed: () {
                             UtilNavigate.to(context, MoviePage(movieId: movie.id));
