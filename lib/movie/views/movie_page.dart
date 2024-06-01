@@ -69,11 +69,7 @@ class MoviePage extends StatelessWidget {
                                     itemCount: state.reviews.length,
                                     itemBuilder: (context, index) {
                                       final review = state.reviews[index];
-                                      return MovieReviewCard(
-                                        title: review.title,
-                                        body: review.body,
-                                        rating: review.rating,
-                                      );
+                                      return MovieReviewCard(review: review);
                                     },
                                   ),
                               ],

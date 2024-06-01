@@ -1,17 +1,18 @@
 import 'package:coolmovies/common/constants/app_layout.dart';
+import 'package:coolmovies/common/widgets/widgets.dart';
+import 'package:coolmovies/user/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:movies_repository/movies_repository.dart';
 
 class MovieReviewCard extends StatelessWidget {
   const MovieReviewCard({
     super.key,
-    required this.title,
-    required this.body,
-    required this.rating,
+    required this.review,
   });
 
-  final String title;
-  final String body;
-  final int rating;
+  final ReviewModel review;
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +25,37 @@ class MovieReviewCard extends StatelessWidget {
         padding: const EdgeInsets.all(AppLayout.padding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
+            Row(
+              children: [
+                UserAvatar(id: review.userReviewerId, userName: review.userReviewerName),
+                const SizedBox(width: AppLayout.spacingSmall),
+                Text(
+                  review.userReviewerName,
+                  style: const TextStyle(fontSize: 20),
+                ),
+                if (review.userReviewerId == BlocProvider.of<UserBloc>(context).state.user.id)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: AppLayout.padding / 2),
+                    child: Text(
+                      '(you)',
+                      style: TextStyle(fontSize: 16, color: Colors.lightBlue),
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: AppLayout.spacingSmall),
             Row(
               children: List.generate(5, (index) {
                 return Icon(
-                  index < rating ? Icons.star : Icons.star_border,
+                  index < review.rating ? Icons.star : Icons.star_border,
                   color: Colors.amber,
                 );
               }),
             ),
             const SizedBox(height: AppLayout.spacingSmall),
             Text(
-              title,
+              review.title,
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -43,7 +63,7 @@ class MovieReviewCard extends StatelessWidget {
             ),
             const SizedBox(height: AppLayout.spacingSmall),
             Text(
-              body,
+              review.body,
               style: const TextStyle(
                 fontSize: 16,
               ),
