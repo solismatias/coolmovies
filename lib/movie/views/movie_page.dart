@@ -1,7 +1,7 @@
 import 'package:coolmovies/common/constants/app_layout.dart';
+import 'package:coolmovies/common/widgets/widgets.dart';
 import 'package:coolmovies/movie/movie.dart';
 import 'package:coolmovies/common/utils/utils.dart';
-import 'package:coolmovies/common/widgets/my_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_repository/movies_repository.dart';
@@ -44,23 +44,51 @@ class MoviePage extends StatelessWidget {
                                 _MoreInfo(movie: state.movie),
                                 const SizedBox(height: AppLayout.spacingSmall),
                                 const Divider(),
-                                Container(
-                                  padding: const EdgeInsets.all(8.0),
-                                  decoration: const BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        color: Colors.white,
-                                        width: 2.0,
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      decoration: const BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: Colors.white,
+                                            width: 2.0,
+                                          ),
+                                        ),
+                                      ),
+                                      child: const Text(
+                                        'Reviews',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  child: const Text(
-                                    'Reviews',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
+                                    const Spacer(),
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        ReviewModel? newReview = await showAddReviewModal(
+                                          context: context,
+                                          movieId: state.movie.id,
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Theme.of(context).primaryColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                      child: const Text(
+                                        "Add review",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          height: 1,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
                                 if (state.reviewStatus == MovieStatus.success)
                                   ListView.builder(
