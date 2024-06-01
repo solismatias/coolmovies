@@ -79,7 +79,7 @@ class MoviePage extends StatelessWidget {
                                         ),
                                       ),
                                       child: const Text(
-                                        "Add review",
+                                        "Add a review",
                                         style: TextStyle(
                                           fontSize: 18,
                                           color: Colors.white,
