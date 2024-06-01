@@ -1,3 +1,4 @@
+import 'package:coolmovies/common/widgets/widgets.dart';
 import 'package:coolmovies/initial/initial.dart';
 import 'package:coolmovies/user/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class AppView extends StatelessWidget {
       create: (context) => UserBloc(movieRepository: context.read<MoviesRepository>())..add(const UserCurrentDataRequested()),
       child: MaterialApp(
         title: 'Cool Movies',
+        scaffoldMessengerKey: scaffoldMessengerKey,
         theme: ThemeData(
           brightness: Brightness.dark,
           primaryColor: const Color(0xFFBB0A21),
