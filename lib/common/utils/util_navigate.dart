@@ -8,5 +8,7 @@ class UtilNavigate {
     );
   }
 
-  static goBack(context) => Navigator.pop(context);
+  static goBack<T extends Object?>(BuildContext context, [T? result]) {
+    Navigator.of(context).pop<T>(result);
+  }
 }
