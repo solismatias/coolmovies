@@ -10,6 +10,7 @@ class MovieState extends Equatable {
     this.reviewSubmitStatus = MovieStatus.initial,
     this.reviewDeleteStatus = MovieStatus.initial,
     this.reviews = const [],
+    this.syncSuccess = false,
   });
   final MovieModel movie;
   final MovieStatus status;
@@ -17,9 +18,18 @@ class MovieState extends Equatable {
   final MovieStatus reviewSubmitStatus;
   final MovieStatus reviewDeleteStatus;
   final List<ReviewModel> reviews;
+  final bool syncSuccess;
 
   @override
-  List<Object> get props => [movie, status, reviewStatus, reviews, reviewSubmitStatus, reviewDeleteStatus];
+  List<Object> get props => [
+        movie,
+        status,
+        reviewStatus,
+        reviews,
+        reviewSubmitStatus,
+        reviewDeleteStatus,
+        syncSuccess,
+      ];
 
   MovieState copyWith({
     MovieModel? movie,
@@ -28,6 +38,7 @@ class MovieState extends Equatable {
     MovieStatus? reviewSubmitStatus,
     MovieStatus? reviewDeleteStatus,
     List<ReviewModel>? reviews,
+    bool? syncSuccess,
   }) {
     return MovieState(
       movie: movie ?? this.movie,
@@ -36,6 +47,7 @@ class MovieState extends Equatable {
       reviewSubmitStatus: reviewSubmitStatus ?? this.reviewSubmitStatus,
       reviewDeleteStatus: reviewDeleteStatus ?? this.reviewDeleteStatus,
       reviews: reviews ?? this.reviews,
+      syncSuccess: syncSuccess ?? this.syncSuccess,
     );
   }
 }

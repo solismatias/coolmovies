@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:movies_repository/movies_repository.dart';
@@ -14,6 +16,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     on<MovieReviewsRequested>(_onReviewsRequested);
     on<MovieReviewsSubmitPressed>(_onReviewsSubmitPressed);
     on<MovieReviewsDeletePressed>(_onReviewsDeletePressed);
+    on<MovieReviewsSyncRequested>(_onSyncRequested);
   }
   final MoviesRepository _movieRepository;
 
@@ -56,6 +59,21 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
 
     bool isSuccessful = await _movieRepository.createMovieReview(event.review);
     emit(state.copyWith(reviewSubmitStatus: isSuccessful ? MovieStatus.success : MovieStatus.failure));
+
+    if (!isSuccessful) {
+      add(const MovieReviewsSyncRequested());
+    }
+  }
+
+  void _onSyncRequested(event, emit) {
+    Timer.periodic(const Duration(seconds: 5), (timer) async {
+      bool isConnected = await _movieRepository.isConnected();
+      if (isConnected) {
+        timer.cancel();
+        bool success = await _movieRepository.retryFailedReviews();
+        emit(state.copyWith(syncSuccess: success));
+      }
+    });
   }
 
   _onReviewsDeletePressed(event, emit) async {

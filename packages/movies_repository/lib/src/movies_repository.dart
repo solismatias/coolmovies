@@ -6,6 +6,7 @@ import 'package:movies_repository/movies_repository.dart';
 class MoviesRepository {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
+  List<ReviewModel> _offlineReviewsQueue = [];
 
   Future<List<MovieModel>> getMovies() async {
     try {
@@ -111,7 +112,7 @@ class MoviesRepository {
           variables: {
             'id': movieId,
           },
-          fetchPolicy: forceReload ? null : FetchPolicy.networkOnly,
+          fetchPolicy: forceReload ? FetchPolicy.networkOnly : null,
         ),
       );
 
@@ -131,7 +132,7 @@ class MoviesRepository {
     }
   }
 
-  Future<bool> createMovieReview(ReviewModel review) async {
+  Future<bool> createMovieReview(ReviewModel review, {bool isRetry = false}) async {
     try {
       QueryResult result = await client.mutate(MutationOptions(
         document: gql("""
@@ -168,6 +169,10 @@ class MoviesRepository {
 
       return true;
     } catch (e) {
+      if (!isRetry) {
+        _offlineReviewsQueue.add(review);
+        print(_offlineReviewsQueue);
+      }
       return false;
     }
   }
@@ -218,6 +223,33 @@ class MoviesRepository {
 
       return true;
     } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> retryFailedReviews() async {
+    bool allReviewsSuccess = false;
+    while (_offlineReviewsQueue.isNotEmpty) {
+      final review = _offlineReviewsQueue.first;
+      bool success = await createMovieReview(review, isRetry: true);
+      if (success) {
+        _offlineReviewsQueue.remove(review);
+        allReviewsSuccess = success;
+      } else {
+        break;
+      }
+    }
+    return allReviewsSuccess;
+  }
+
+  Future<bool> isConnected() async {
+    try {
+      final result = await client.query(QueryOptions(
+        document: gql('query { __typename }'),
+        fetchPolicy: FetchPolicy.networkOnly,
+      ));
+      return !result.hasException;
+    } catch (_) {
       return false;
     }
   }

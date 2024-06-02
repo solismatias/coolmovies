@@ -34,7 +34,11 @@ class MoviePage extends StatelessWidget {
                           MovieReviewsRequested(id: movieId, forceReload: true),
                         );
                   } else if (state.reviewSubmitStatus == MovieStatus.failure) {
-                    showFeedback(false);
+                    showFeedback(
+                      false,
+                      errorMessage: 'Connection Lost: your review will auto submitted when reconnected',
+                      color: Colors.amber[900],
+                    );
                   }
                 },
               ),
@@ -51,6 +55,17 @@ class MoviePage extends StatelessWidget {
                   } else if (state.reviewDeleteStatus == MovieStatus.failure) {
                     showFeedback(false);
                   }
+                },
+              ),
+              BlocListener<MovieBloc, MovieState>(
+                listenWhen: (prevState, currentState) {
+                  return ((prevState.syncSuccess != currentState.syncSuccess && currentState.syncSuccess));
+                },
+                listener: (context, state) {
+                  showFeedback(true, successMessage: 'You are online again: Reviews added successfully');
+                  context.read<MovieBloc>().add(
+                        MovieReviewsRequested(id: movieId, forceReload: true),
+                      );
                 },
               ),
             ],

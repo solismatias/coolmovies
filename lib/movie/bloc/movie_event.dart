@@ -14,7 +14,7 @@ class MovieDataRequested extends MovieEvent {
 }
 
 class MovieReviewsRequested extends MovieEvent {
-  const MovieReviewsRequested({required this.id, this.forceReload = true});
+  const MovieReviewsRequested({required this.id, this.forceReload = false});
 
   final String id;
   final bool forceReload;
@@ -30,4 +30,8 @@ class MovieReviewsDeletePressed extends MovieEvent {
   const MovieReviewsDeletePressed({required this.reviewId});
 
   final String reviewId;
+}
+
+class MovieReviewsSyncRequested extends MovieEvent {
+  const MovieReviewsSyncRequested();
 }
