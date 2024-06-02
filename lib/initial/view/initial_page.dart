@@ -18,31 +18,43 @@ class InitialPage extends StatelessWidget {
       },
       child: Scaffold(
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
+          child: BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: AppLayout.logoMedium,
-                    child: Image.asset('assets/logo.png'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: AppLayout.logoMedium,
+                        child: Image.asset('assets/logo.png'),
+                      ),
+                      const SizedBox(width: AppLayout.spacingSmall),
+                      Text(
+                        'COOLMOVIES',
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: AppLayout.spacingSmall),
-                  Text(
-                    'COOLMOVIES',
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  const SizedBox(height: AppLayout.spacingLarge),
+                  if (state.status == UserStatus.failure) const Text('Something went wrong'),
+                  if (state.status == UserStatus.failure) const SizedBox(height: AppLayout.spacingMedium),
+                  if (state.status == UserStatus.failure)
+                    ElevatedButton(
+                        onPressed: () {
+                          context.read<UserBloc>().add(const UserCurrentDataRequested());
+                        },
+                        child: const Text('Retry')),
+                  if (state.status != UserStatus.failure) CircularProgressIndicator(color: Theme.of(context).primaryColor),
                 ],
-              ),
-              const SizedBox(height: AppLayout.spacingLarge),
-              CircularProgressIndicator(color: Theme.of(context).primaryColor),
-            ],
+              );
+            },
           ),
         ),
       ),
