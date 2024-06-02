@@ -1,4 +1,5 @@
 import 'package:coolmovies/common/constants/app_layout.dart';
+import 'package:coolmovies/common/utils/utils.dart';
 import 'package:coolmovies/home/home.dart';
 import 'package:coolmovies/movie/movie.dart';
 import 'package:coolmovies/common/utils/util_navigate.dart';
@@ -82,7 +83,7 @@ class _Header extends StatelessWidget {
           items: ['newest', 'oldest'].map((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value),
+              child: Text(UtilText.capitalize(value)),
             );
           }).toList(),
           onChanged: (value) {
