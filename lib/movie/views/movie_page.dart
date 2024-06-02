@@ -23,6 +23,7 @@ class MoviePage extends StatelessWidget {
           appBar: const MyAppBar(),
           body: MultiBlocListener(
             listeners: [
+              // Reviews Sync Listener
               BlocListener<MovieBloc, MovieState>(
                 listenWhen: (prevState, currentState) {
                   return ((prevState.reviewSubmitStatus != currentState.reviewSubmitStatus));
@@ -42,6 +43,7 @@ class MoviePage extends StatelessWidget {
                   }
                 },
               ),
+              // Review Delete Listener
               BlocListener<MovieBloc, MovieState>(
                 listenWhen: (prevState, currentState) {
                   return ((prevState.reviewDeleteStatus != currentState.reviewDeleteStatus));
@@ -57,6 +59,7 @@ class MoviePage extends StatelessWidget {
                   }
                 },
               ),
+              // Review Submit Listener
               BlocListener<MovieBloc, MovieState>(
                 listenWhen: (prevState, currentState) {
                   return ((prevState.syncSuccess != currentState.syncSuccess && currentState.syncSuccess));
