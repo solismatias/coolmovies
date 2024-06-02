@@ -19,6 +19,7 @@ class MoviesRepository {
                 id
                 imgUrl
                 title
+                releaseDate
                 }
               }
             }

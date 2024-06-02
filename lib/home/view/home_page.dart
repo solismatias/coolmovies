@@ -51,27 +51,59 @@ class _HomePage extends StatelessWidget {
                   if (state.status == HomeMoviesStatus.loading) const _Loader(),
                   if (state.status == HomeMoviesStatus.success)
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: state.movies.length,
-                        itemBuilder: (context, index) {
-                          final movie = state.movies[index];
-                          return HomeMovieCard(
-                            title: movie.title,
-                            imageUrl: movie.imgUrl,
-                            onAddReviewPressed: () async {
-                              ReviewModel? newReview = await showAddReviewModal(
-                                context: context,
-                                movieId: movie.id,
-                              );
-                              if (newReview != null && context.mounted) {
-                                context.read<MovieBloc>().add(MovieReviewsSubmitPressed(review: newReview));
-                              }
-                            },
-                            onMoreButtonPressed: () {
-                              UtilNavigate.to(context, MoviePage(movieId: movie.id));
-                            },
-                          );
-                        },
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'All Movies',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              DropdownButton<String>(
+                                value: state.sortBy,
+                                focusColor: Colors.black,
+                                underline: const SizedBox(),
+                                padding: const EdgeInsets.symmetric(horizontal: AppLayout.padding),
+                                items: ['newest', 'oldest'].map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  if (value != null) {
+                                    context.read<HomeBloc>().add(HomeSortMoviewsRequested(sortBy: value));
+                                  }
+                                },
+                              )
+                            ],
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: state.movies.length,
+                              itemBuilder: (context, index) {
+                                final movie = state.movies[index];
+                                return HomeMovieCard(
+                                  title: movie.title,
+                                  imageUrl: movie.imgUrl,
+                                  onAddReviewPressed: () async {
+                                    ReviewModel? newReview = await showAddReviewModal(
+                                      context: context,
+                                      movieId: movie.id,
+                                    );
+                                    if (newReview != null && context.mounted) {
+                                      context.read<MovieBloc>().add(MovieReviewsSubmitPressed(review: newReview));
+                                    }
+                                  },
+                                  onMoreButtonPressed: () {
+                                    UtilNavigate.to(context, MoviePage(movieId: movie.id));
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   if (state.status == HomeMoviesStatus.failure) const Text('Something went wrong')

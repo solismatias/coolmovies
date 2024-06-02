@@ -10,3 +10,9 @@ class HomeEvent extends Equatable {
 class HomeAllMoviesRequested extends HomeEvent {
   const HomeAllMoviesRequested();
 }
+
+class HomeSortMoviewsRequested extends HomeEvent {
+  const HomeSortMoviewsRequested({required this.sortBy});
+
+  final String sortBy;
+}

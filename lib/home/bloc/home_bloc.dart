@@ -11,6 +11,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   })  : _movieRepository = movieRepository,
         super(HomeInitial()) {
     on<HomeAllMoviesRequested>(_onMoviesRequested);
+    on<HomeSortMoviewsRequested>(_onSortRequested);
   }
   final MoviesRepository _movieRepository;
 
@@ -29,5 +30,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } catch (e) {
       emit(state.copyWith(status: HomeMoviesStatus.failure));
     }
+  }
+
+  Future<void> _onSortRequested(
+    event,
+    emit,
+  ) async {
+    List<MovieModel> sortedList = List.from(state.movies);
+
+    sortedList.sort(
+      (a, b) {
+        DateTime dateA = DateTime.parse(a.releaseDate!);
+        DateTime dateB = DateTime.parse(b.releaseDate!);
+
+        if (event.sortBy == 'oldest') {
+          return dateA.compareTo(dateB);
+        } else {
+          return dateB.compareTo(dateA);
+        }
+      },
+    );
+
+    emit(state.copyWith(movies: sortedList, sortBy: event.sortBy));
   }
 }
