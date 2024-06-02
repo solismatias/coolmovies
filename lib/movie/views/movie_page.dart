@@ -1,5 +1,6 @@
 import 'package:coolmovies/common/constants/app_layout.dart';
 import 'package:coolmovies/common/widgets/widgets.dart';
+import 'package:coolmovies/movie/bloc/movie_bloc.dart';
 import 'package:coolmovies/movie/movie.dart';
 import 'package:coolmovies/common/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,11 @@ class MoviePage extends StatelessWidget {
               if (state.reviewSubmitStatus == MovieStatus.success) {
                 showFeedback(true);
               } else if (state.reviewSubmitStatus == MovieStatus.failure) {
+                showFeedback(false);
+              }
+              if (state.reviewDeleteStatus == MovieStatus.success) {
+                showFeedback(true);
+              } else if (state.reviewDeleteStatus == MovieStatus.failure) {
                 showFeedback(false);
               }
             },
@@ -108,7 +114,19 @@ class MoviePage extends StatelessWidget {
                                       itemCount: state.reviews.length,
                                       itemBuilder: (context, index) {
                                         final review = state.reviews[index];
-                                        return MovieReviewCard(review: review);
+                                        return MovieReviewCard(
+                                          review: review,
+                                          onDeletePressed: () async {
+                                            bool confirmAction = await showConfirmModal(context);
+                                            if (review.id != null && confirmAction) {
+                                              context.read<MovieBloc>().add(
+                                                    MovieReviewsDeletePressed(
+                                                      reviewId: review.id!,
+                                                    ),
+                                                  );
+                                            }
+                                          },
+                                        );
                                       },
                                     ),
                                 ],

@@ -10,12 +10,14 @@ class MovieReviewCard extends StatelessWidget {
   const MovieReviewCard({
     super.key,
     required this.review,
+    this.onDeletePressed,
   });
 
   final ReviewModel review;
-
+  final void Function()? onDeletePressed;
   @override
   Widget build(BuildContext context) {
+    bool isCurrentUSer = review.userReviewerId == BlocProvider.of<UserBloc>(context).state.user.id;
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
@@ -35,7 +37,7 @@ class MovieReviewCard extends StatelessWidget {
                   review.userReviewerName,
                   style: const TextStyle(fontSize: 20),
                 ),
-                if (review.userReviewerId == BlocProvider.of<UserBloc>(context).state.user.id)
+                if (isCurrentUSer)
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: AppLayout.padding / 2),
                     child: Text(
@@ -43,6 +45,15 @@ class MovieReviewCard extends StatelessWidget {
                       style: TextStyle(fontSize: 16, color: Colors.lightBlue),
                     ),
                   ),
+                const Spacer(),
+                if (isCurrentUSer)
+                  IconButton(
+                    onPressed: onDeletePressed,
+                    icon: const Icon(
+                      Icons.delete_forever,
+                      color: Colors.red,
+                    ),
+                  )
               ],
             ),
             const SizedBox(height: AppLayout.spacingSmall),

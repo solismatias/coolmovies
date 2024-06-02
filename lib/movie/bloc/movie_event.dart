@@ -24,3 +24,9 @@ class MovieReviewsSubmitPressed extends MovieEvent {
 
   final ReviewModel review;
 }
+
+class MovieReviewsDeletePressed extends MovieEvent {
+  const MovieReviewsDeletePressed({required this.reviewId});
+
+  final String reviewId;
+}

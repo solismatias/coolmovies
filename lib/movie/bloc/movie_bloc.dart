@@ -13,6 +13,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     on<MovieDataRequested>(_onMovieRequested);
     on<MovieReviewsRequested>(_onReviewsRequested);
     on<MovieReviewsSubmitPressed>(_onReviewsSubmitPressed);
+    on<MovieReviewsDeletePressed>(_onReviewsDeletePressed);
   }
   final MoviesRepository _movieRepository;
 
@@ -55,5 +56,12 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
 
     bool isSuccessful = await _movieRepository.createMovieReview(event.review);
     emit(state.copyWith(reviewSubmitStatus: isSuccessful ? MovieStatus.success : MovieStatus.failure));
+  }
+
+  _onReviewsDeletePressed(event, emit) async {
+    emit(state.copyWith(reviewDeleteStatus: MovieStatus.loading));
+
+    bool isSuccessful = await _movieRepository.deleteMovieReview(event.reviewId);
+    emit(state.copyWith(reviewDeleteStatus: isSuccessful ? MovieStatus.success : MovieStatus.failure));
   }
 }

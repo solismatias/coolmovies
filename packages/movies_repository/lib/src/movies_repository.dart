@@ -194,4 +194,29 @@ class MoviesRepository {
       throw Exception(e);
     }
   }
+
+  Future<bool> deleteMovieReview(String reviewId) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql("""
+            mutation MyMutation(\$id: UUID!) {
+              deleteMovieReviewById(input: {id: \$id}) {
+                clientMutationId
+              }
+            }
+          """),
+          variables: {
+            'id': reviewId,
+          },
+        ),
+      );
+
+      if (result.hasException) throw Exception(result.exception);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
