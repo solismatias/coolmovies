@@ -18,9 +18,11 @@ class HomeMovieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
+      elevation: 10,
+      shadowColor: Colors.black54,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppLayout.borderRadius),
+        side: BorderSide(color: Colors.grey[800]!, width: 1),
       ),
       child: Stack(
         children: [
@@ -53,18 +55,30 @@ class HomeMovieCard extends StatelessWidget {
             bottom: 0,
             left: 0,
             right: 0,
-            child: Column(
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: AppLayout.spacingSmall),
-                Padding(
-                  padding: const EdgeInsets.all(AppLayout.padding),
-                  child: SizedBox(
-                    height: 30,
+            child: Padding(
+              padding: const EdgeInsets.all(AppLayout.padding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 4,
+                          color: Colors.black,
+                          offset: Offset(2, 2),
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: AppLayout.spacingSmall),
+                  SizedBox(
+                    height: 40,
                     child: Row(
                       children: [
                         Expanded(
@@ -72,7 +86,7 @@ class HomeMovieCard extends StatelessWidget {
                             onPressed: onAddReviewPressed,
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.zero,
-                              backgroundColor: Colors.white,
+                              backgroundColor: Colors.grey[850],
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -81,7 +95,7 @@ class HomeMovieCard extends StatelessWidget {
                               "Add a review",
                               style: TextStyle(
                                 fontSize: 18,
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontWeight: FontWeight.w500,
                                 height: 1,
                               ),
@@ -94,7 +108,7 @@ class HomeMovieCard extends StatelessWidget {
                             onPressed: onMoreButtonPressed,
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.zero,
-                              backgroundColor: Colors.grey[900]!.withOpacity(0.5),
+                              backgroundColor: Colors.blueAccent,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -114,8 +128,8 @@ class HomeMovieCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
