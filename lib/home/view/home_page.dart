@@ -2,7 +2,6 @@ import 'package:coolmovies/common/constants/app_layout.dart';
 import 'package:coolmovies/common/utils/utils.dart';
 import 'package:coolmovies/home/home.dart';
 import 'package:coolmovies/movie/movie.dart';
-import 'package:coolmovies/common/utils/util_navigate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_repository/movies_repository.dart';
