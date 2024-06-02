@@ -66,6 +66,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                         const Text('✅ The user should be able to create new reviews.'),
                         const Text('✅ User should be able to see the reviews and the movies even if offline.'),
                         const Text('✅ User should be able to create reviews offline and sync them when online.'),
+                        const Text(
+                          'Note: re-sync only works if we stay in movie page',
+                          style: TextStyle(fontSize: 10),
+                        ),
                       ],
                     ),
                   ),
