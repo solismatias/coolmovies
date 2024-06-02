@@ -9,6 +9,7 @@ class MoviesRepository {
 
   Future<List<MovieModel>> getMovies() async {
     try {
+      await Future.delayed(Duration(seconds: 5));
       QueryResult result = await client.query(
         QueryOptions(
           document: gql("""
@@ -44,6 +45,7 @@ class MoviesRepository {
   }
 
   Future<MovieModel> getMovie(String id) async {
+    await Future.delayed(Duration(seconds: 5));
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -85,6 +87,7 @@ class MoviesRepository {
   }
 
   Future<List<ReviewModel>> getMovieReviews(String movieId) async {
+    await Future.delayed(Duration(seconds: 5));
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -130,6 +133,7 @@ class MoviesRepository {
   }
 
   Future<bool> createMovieReview(ReviewModel review) async {
+    await Future.delayed(Duration(seconds: 5));
     try {
       QueryResult result = await client.mutate(MutationOptions(
         document: gql("""
@@ -171,6 +175,7 @@ class MoviesRepository {
   }
 
   Future<UserModel> getCurrentUser() async {
+    await Future.delayed(Duration(seconds: 5));
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -196,6 +201,7 @@ class MoviesRepository {
   }
 
   Future<bool> deleteMovieReview(String reviewId) async {
+    await Future.delayed(Duration(seconds: 5));
     try {
       QueryResult result = await client.mutate(
         MutationOptions(

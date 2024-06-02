@@ -39,9 +39,9 @@ class MoviePage extends StatelessWidget {
                 return SingleChildScrollView(
                   child: Column(
                     children: [
-                      if (state.status == MovieStatus.loading) const CircularProgressIndicator(),
+                      if (state.status == MovieStatus.loading) const _MovieLoader(),
                       if (state.status == MovieStatus.failure) const Text('Something went wrong'),
-                      if (state.status == MovieStatus.success && state.reviewStatus == MovieStatus.success)
+                      if (state.status == MovieStatus.success)
                         Column(
                           children: [
                             _MoviePoster(imgUrl: state.movie.imgUrl),
@@ -52,15 +52,17 @@ class MoviePage extends StatelessWidget {
                                 children: [
                                   _Title(movie: state.movie),
                                   const SizedBox(height: AppLayout.spacingSmall),
-                                  RatingSquare(ratings: state.reviews.map((review) => review.rating).toList()),
+                                  if (state.reviewStatus == MovieStatus.success)
+                                    RatingSquare(ratings: state.reviews.map((review) => review.rating).toList()),
                                   const SizedBox(height: AppLayout.spacingSmall),
                                   _MoreInfo(movie: state.movie),
                                   const SizedBox(height: AppLayout.spacingSmall),
                                   const Divider(),
                                   if (state.reviewStatus == MovieStatus.success) _Reviews(state: state),
+                                  if (state.reviewStatus == MovieStatus.loading) const _ReviewLoader(),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                     ],
@@ -331,6 +333,38 @@ class _MoreInfoState extends State<_MoreInfo> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _MovieLoader extends StatelessWidget {
+  const _MovieLoader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppLayout.padding / 2),
+          child: MyShimmer(width: MediaQuery.of(context).size.width, height: 400),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppLayout.padding / 2),
+          child: MyShimmer(width: MediaQuery.of(context).size.width, height: 400),
+        ),
+      ],
+    );
+  }
+}
+
+class _ReviewLoader extends StatelessWidget {
+  const _ReviewLoader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppLayout.padding / 2),
+      child: MyShimmer(width: MediaQuery.of(context).size.width, height: 400),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:coolmovies/common/constants/app_layout.dart';
+import 'package:coolmovies/common/widgets/my_shimmer.dart';
 import 'package:coolmovies/home/home.dart';
 import 'package:coolmovies/movie/movie.dart';
 import 'package:coolmovies/common/utils/util_navigate.dart';
@@ -48,7 +49,7 @@ class _HomePage extends StatelessWidget {
               child: Center(
                   child: Column(
                 children: [
-                  if (state.status == HomeMoviesStatus.loading) const CircularProgressIndicator(),
+                  if (state.status == HomeMoviesStatus.loading) const _Loader(),
                   if (state.status == HomeMoviesStatus.success)
                     Expanded(
                       child: ListView.builder(
@@ -80,6 +81,25 @@ class _HomePage extends StatelessWidget {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+class _Loader extends StatelessWidget {
+  const _Loader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppLayout.padding / 2),
+            child: MyShimmer(width: MediaQuery.of(context).size.width, height: 400),
+          );
+        },
       ),
     );
   }

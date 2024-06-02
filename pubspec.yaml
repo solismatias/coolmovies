@@ -36,6 +36,7 @@ dependencies:
   graphql_flutter: ^5.1.2
   movies_repository:
     path: packages/movies_repository
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
