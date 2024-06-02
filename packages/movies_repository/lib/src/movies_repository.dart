@@ -110,6 +110,7 @@ class MoviesRepository {
           variables: {
             'id': movieId,
           },
+          fetchPolicy: FetchPolicy.networkOnly,
         ),
       );
 

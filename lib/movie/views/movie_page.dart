@@ -21,25 +21,45 @@ class MoviePage extends StatelessWidget {
         ..add(MovieReviewsRequested(id: movieId)),
       child: Scaffold(
           appBar: const MyAppBar(),
-          body: BlocListener<MovieBloc, MovieState>(
-            listener: (context, state) {
-              if (state.reviewSubmitStatus == MovieStatus.success) {
-                showFeedback(true);
-              } else if (state.reviewSubmitStatus == MovieStatus.failure) {
-                showFeedback(false);
-              }
-              if (state.reviewDeleteStatus == MovieStatus.success) {
-                showFeedback(true);
-              } else if (state.reviewDeleteStatus == MovieStatus.failure) {
-                showFeedback(false);
-              }
-            },
+          body: MultiBlocListener(
+            listeners: [
+              BlocListener<MovieBloc, MovieState>(
+                listenWhen: (prevState, currentState) {
+                  return ((prevState.reviewSubmitStatus != currentState.reviewSubmitStatus));
+                },
+                listener: (context, state) {
+                  if (state.reviewSubmitStatus == MovieStatus.success) {
+                    showFeedback(true, successMessage: 'Review submited successfully');
+                    context.read<MovieBloc>().add(
+                          MovieReviewsRequested(id: movieId),
+                        );
+                  } else if (state.reviewSubmitStatus == MovieStatus.failure) {
+                    showFeedback(false);
+                  }
+                },
+              ),
+              BlocListener<MovieBloc, MovieState>(
+                listenWhen: (prevState, currentState) {
+                  return ((prevState.reviewDeleteStatus != currentState.reviewDeleteStatus));
+                },
+                listener: (context, state) {
+                  if (state.reviewDeleteStatus == MovieStatus.success) {
+                    showFeedback(true, successMessage: 'Review removed successfully');
+                    context.read<MovieBloc>().add(
+                          MovieReviewsRequested(id: movieId),
+                        );
+                  } else if (state.reviewDeleteStatus == MovieStatus.failure) {
+                    showFeedback(false);
+                  }
+                },
+              ),
+            ],
             child: BlocBuilder<MovieBloc, MovieState>(
               builder: (context, state) {
                 return SingleChildScrollView(
                   child: Column(
                     children: [
-                      if (state.status == MovieStatus.loading) const _MovieLoader(),
+                      if (state.status == MovieStatus.loading) const _Loader(),
                       if (state.status == MovieStatus.failure) const Text('Something went wrong'),
                       if (state.status == MovieStatus.success)
                         Column(
@@ -59,7 +79,7 @@ class MoviePage extends StatelessWidget {
                                   const SizedBox(height: AppLayout.spacingSmall),
                                   const Divider(),
                                   if (state.reviewStatus == MovieStatus.success) _Reviews(state: state),
-                                  if (state.reviewStatus == MovieStatus.loading) const _ReviewLoader(),
+                                  if (state.reviewStatus == MovieStatus.loading) const _Loader(),
                                 ],
                               ),
                             ),
@@ -337,8 +357,8 @@ class _MoreInfoState extends State<_MoreInfo> {
   }
 }
 
-class _MovieLoader extends StatelessWidget {
-  const _MovieLoader();
+class _Loader extends StatelessWidget {
+  const _Loader();
 
   @override
   Widget build(BuildContext context) {
@@ -353,18 +373,6 @@ class _MovieLoader extends StatelessWidget {
           child: MyShimmer(width: MediaQuery.of(context).size.width, height: 400),
         ),
       ],
-    );
-  }
-}
-
-class _ReviewLoader extends StatelessWidget {
-  const _ReviewLoader();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppLayout.padding / 2),
-      child: MyShimmer(width: MediaQuery.of(context).size.width, height: 400),
     );
   }
 }
