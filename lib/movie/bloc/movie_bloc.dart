@@ -40,7 +40,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   ) async {
     emit(state.copyWith(reviewStatus: MovieStatus.loading));
     try {
-      List<ReviewModel> reviews = await _movieRepository.getMovieReviews(event.id);
+      List<ReviewModel> reviews = await _movieRepository.getMovieReviews(event.id, forceReload: event.forceReload);
 
       emit(state.copyWith(
         reviews: reviews,

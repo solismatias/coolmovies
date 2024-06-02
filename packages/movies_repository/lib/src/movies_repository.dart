@@ -85,7 +85,7 @@ class MoviesRepository {
     }
   }
 
-  Future<List<ReviewModel>> getMovieReviews(String movieId) async {
+  Future<List<ReviewModel>> getMovieReviews(String movieId, {bool forceReload = false}) async {
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -111,7 +111,7 @@ class MoviesRepository {
           variables: {
             'id': movieId,
           },
-          fetchPolicy: FetchPolicy.networkOnly,
+          fetchPolicy: forceReload ? null : FetchPolicy.networkOnly,
         ),
       );
 

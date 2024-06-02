@@ -14,9 +14,10 @@ class MovieDataRequested extends MovieEvent {
 }
 
 class MovieReviewsRequested extends MovieEvent {
-  const MovieReviewsRequested({required this.id});
+  const MovieReviewsRequested({required this.id, this.forceReload = true});
 
   final String id;
+  final bool forceReload;
 }
 
 class MovieReviewsSubmitPressed extends MovieEvent {

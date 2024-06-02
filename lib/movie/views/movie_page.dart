@@ -31,7 +31,7 @@ class MoviePage extends StatelessWidget {
                   if (state.reviewSubmitStatus == MovieStatus.success) {
                     showFeedback(true, successMessage: 'Review submited successfully');
                     context.read<MovieBloc>().add(
-                          MovieReviewsRequested(id: movieId),
+                          MovieReviewsRequested(id: movieId, forceReload: true),
                         );
                   } else if (state.reviewSubmitStatus == MovieStatus.failure) {
                     showFeedback(false);
@@ -46,7 +46,7 @@ class MoviePage extends StatelessWidget {
                   if (state.reviewDeleteStatus == MovieStatus.success) {
                     showFeedback(true, successMessage: 'Review removed successfully');
                     context.read<MovieBloc>().add(
-                          MovieReviewsRequested(id: movieId),
+                          MovieReviewsRequested(id: movieId, forceReload: true),
                         );
                   } else if (state.reviewDeleteStatus == MovieStatus.failure) {
                     showFeedback(false);
