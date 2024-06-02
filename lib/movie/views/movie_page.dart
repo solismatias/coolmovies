@@ -1,6 +1,5 @@
 import 'package:coolmovies/common/constants/app_layout.dart';
 import 'package:coolmovies/common/widgets/widgets.dart';
-import 'package:coolmovies/movie/bloc/movie_bloc.dart';
 import 'package:coolmovies/movie/movie.dart';
 import 'package:coolmovies/common/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -58,77 +57,7 @@ class MoviePage extends StatelessWidget {
                                   _MoreInfo(movie: state.movie),
                                   const SizedBox(height: AppLayout.spacingSmall),
                                   const Divider(),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(8.0),
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                              color: Colors.white,
-                                              width: 2.0,
-                                            ),
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Reviews',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      ElevatedButton(
-                                        onPressed: () async {
-                                          ReviewModel? newReview = await showAddReviewModal(
-                                            context: context,
-                                            movieId: state.movie.id,
-                                          );
-                                          if (newReview != null && context.mounted) {
-                                            context.read<MovieBloc>().add(MovieReviewsSubmitPressed(review: newReview));
-                                          }
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Theme.of(context).primaryColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(5),
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          "Add a review",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            height: 1,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  if (state.reviewStatus == MovieStatus.success)
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      itemCount: state.reviews.length,
-                                      itemBuilder: (context, index) {
-                                        final review = state.reviews[index];
-                                        return MovieReviewCard(
-                                          review: review,
-                                          onDeletePressed: () async {
-                                            bool confirmAction = await showConfirmModal(context);
-                                            if (review.id != null && confirmAction) {
-                                              context.read<MovieBloc>().add(
-                                                    MovieReviewsDeletePressed(
-                                                      reviewId: review.id!,
-                                                    ),
-                                                  );
-                                            }
-                                          },
-                                        );
-                                      },
-                                    ),
+                                  if (state.reviewStatus == MovieStatus.success) _Reviews(state: state),
                                 ],
                               ),
                             )
@@ -140,6 +69,98 @@ class MoviePage extends StatelessWidget {
               },
             ),
           )),
+    );
+  }
+}
+
+class _Reviews extends StatelessWidget {
+  const _Reviews({required this.state});
+  final MovieState state;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _ReviewHeader(state: state),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: state.reviews.length,
+          itemBuilder: (context, index) {
+            final review = state.reviews[index];
+            return MovieReviewCard(
+              review: review,
+              onDeletePressed: () async {
+                bool confirmAction = await showConfirmModal(context);
+                if (review.id != null && confirmAction && context.mounted) {
+                  context.read<MovieBloc>().add(
+                        MovieReviewsDeletePressed(
+                          reviewId: review.id!,
+                        ),
+                      );
+                }
+              },
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _ReviewHeader extends StatelessWidget {
+  const _ReviewHeader({required this.state});
+  final MovieState state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.white,
+                width: 2.0,
+              ),
+            ),
+          ),
+          child: const Text(
+            'Reviews',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        const Spacer(),
+        ElevatedButton(
+          onPressed: () async {
+            ReviewModel? newReview = await showAddReviewModal(
+              context: context,
+              movieId: state.movie.id,
+            );
+            if (newReview != null && context.mounted) {
+              context.read<MovieBloc>().add(MovieReviewsSubmitPressed(review: newReview));
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+          child: const Text(
+            "Add a review",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              height: 1,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
