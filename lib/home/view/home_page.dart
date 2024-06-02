@@ -1,5 +1,4 @@
 import 'package:coolmovies/common/constants/app_layout.dart';
-import 'package:coolmovies/common/widgets/my_shimmer.dart';
 import 'package:coolmovies/home/home.dart';
 import 'package:coolmovies/movie/movie.dart';
 import 'package:coolmovies/common/utils/util_navigate.dart';
