@@ -32,18 +32,19 @@ class RatingSquare extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(
-          width: 40,
-          height: 40,
+          width: 45,
+          height: 45,
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(10.0),
           ),
-          child: Center(
-            child: Text(
-              '${percentage.round()}%',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+          child: FittedBox(
+            child: Center(
+              child: Text(
+                '${percentage.round()}%',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
