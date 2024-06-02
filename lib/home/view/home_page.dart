@@ -106,7 +106,12 @@ class _HomePage extends StatelessWidget {
                         ],
                       ),
                     ),
-                  if (state.status == HomeMoviesStatus.failure) const Text('Something went wrong')
+                  if (state.status == HomeMoviesStatus.failure)
+                    NoConnection(
+                      onRetryPressed: () {
+                        context.read<HomeBloc>().add(const HomeAllMoviesRequested());
+                      },
+                    ),
                 ],
               )),
             );

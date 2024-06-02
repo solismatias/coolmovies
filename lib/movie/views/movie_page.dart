@@ -75,7 +75,13 @@ class MoviePage extends StatelessWidget {
                   child: Column(
                     children: [
                       if (state.status == MovieStatus.loading) const _Loader(),
-                      if (state.status == MovieStatus.failure) const Text('Something went wrong'),
+                      if (state.status == MovieStatus.failure)
+                        NoConnection(
+                          onRetryPressed: () {
+                            context.read<MovieBloc>().add(MovieDataRequested(id: movieId));
+                            context.read<MovieBloc>().add(MovieReviewsRequested(id: movieId));
+                          },
+                        ),
                       if (state.status == MovieStatus.success)
                         Column(
                           children: [
