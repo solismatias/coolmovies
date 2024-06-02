@@ -20,12 +20,12 @@ class HomeMovieCard extends StatelessWidget {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(AppLayout.borderRadius),
       ),
       child: Stack(
         children: [
           ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            borderRadius: const BorderRadius.all(Radius.circular(AppLayout.borderRadius)),
             child: AspectRatio(
               aspectRatio: 4 / 5,
               child: Image.network(
@@ -45,7 +45,7 @@ class HomeMovieCard extends StatelessWidget {
                     Colors.black.withOpacity(0.8),
                   ],
                 ),
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                borderRadius: const BorderRadius.all(Radius.circular(AppLayout.borderRadius)),
               ),
             ),
           ),

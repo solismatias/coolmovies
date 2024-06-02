@@ -13,7 +13,7 @@ Future<ReviewModal?> showAddReviewModal<ReviewModal>({
       return Dialog(
         backgroundColor: Colors.black,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(AppLayout.borderRadius),
         ),
         child: Padding(
           padding: const EdgeInsets.all(AppLayout.padding),

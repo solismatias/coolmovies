@@ -21,7 +21,7 @@ class MovieReviewCard extends StatelessWidget {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(AppLayout.borderRadius),
       ),
       margin: const EdgeInsets.symmetric(vertical: AppLayout.padding / 2),
       child: Padding(

@@ -5,4 +5,5 @@ class AppLayout {
   static const double spacingLarge = 50;
   static const double logoMedium = 45;
   static const double logoSmall = 35;
+  static const double borderRadius = 10;
 }

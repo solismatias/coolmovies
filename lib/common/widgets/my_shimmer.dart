@@ -1,3 +1,4 @@
+import 'package:coolmovies/common/constants/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -21,7 +22,7 @@ class MyShimmer extends StatelessWidget {
         height: height,
         decoration: BoxDecoration(
           color: Colors.black,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(AppLayout.borderRadius),
         ),
       ),
     );
