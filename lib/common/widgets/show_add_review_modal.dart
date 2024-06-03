@@ -15,17 +15,20 @@ Future<ReviewModal?> showAddReviewModal<ReviewModal>({
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppLayout.borderRadius),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(AppLayout.padding),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              MovieReviewForm(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(AppLayout.padding),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                MovieReviewForm(
                   movieId: movieId,
                   onSubmit: (review) {
                     UtilNavigate.goBack(context, review);
-                  }),
-            ],
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       );
