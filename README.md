@@ -1,35 +1,55 @@
-# Coolmovies mobile challenge
+# 🎥 CoolMovies - Flutter Movie App
 
-You have to add the cool movies review feature to the existing `coolmovies-mobile`.
+Welcome to **CoolMovies**, a Flutter app designed to showcase my skills in mobile development, featuring the BLoC architecture, GraphQL API integration, offline functionality, and more. This project simulates a movie application where users can browse movies, view details, and leave reviews.
 
-This folder contains a basic Flutter application with some example callbacks.
+## 🚀 Features
 
-We've setup GraphQL for you with the [`graphql_flutter`](https://pub.dev/packages/graphql_flutter) package. We recommend that you work on an emulator only, there's no need to test your application in a real device. Please use the [`flutter_bloc`](https://pub.dev/packages/flutter_bloc) package for state management.
+- **Movie Listings**: Display a comprehensive list of available movies.
+- **Movie Details**: Tap on a movie to open a detailed view that includes all available information about the movie and user reviews.
+- **User Reviews**: Each movie page shows all reviews and the average user rating.
+- **Create Reviews**: Users can write and submit reviews by entering a rating (0-5 stars), a title, and a description.
+- **Offline Support**: Cached data allows users to see movies and reviews when offline. Users can also create reviews while offline, which are synced when back online.
+- **Error Handling**: Displays a user-friendly "Something went wrong" screen with a retry option when there's no internet connection.
 
-## Acceptance Criteria
+## 🛠️ Technologies Used
 
-**You will be evaluated on your UI/UX as we believe this is an important skill to have.**
+- **Flutter**: For building the user interface and ensuring a smooth, cross-platform experience.
+- **BLoC Architecture**: To manage state efficiently and separate the app into well-structured layers:
+  - **Presentation**: UI components and user interactions.
+  - **Business Logic**: Handles the application logic, powered by BLoC.
+  - **Data**: Manages repositories and GraphQL API interactions.
+- **GraphQL API**: For fetching data about movies and reviews from the backend.
+- **Local Caching**: Ensures data is available when the user is offline and allows for review submissions to be synced once the device is back online.
 
-**You also will be evaluated based on your architectural choices.**
+## 💾 Important Notes
 
-**We suggest that you submit the assessment not later than a week span.**
+One of the key highlights of this project is the use of **conventional commits**. The commit messages follow best practices to ensure clarity and consistency throughout the development process, making it easier to track changes and improvements in the codebase.
 
-**DO NOT USE EXISTING TEMPLATES. You can copy the design but not the code, we have to evaluate you by your coding skills.**
+## 📸 Screenshots
 
-For your solution to be accepted it is required that your application is able to:
+1. **Loading Screen**  
+   The app starts with a loading screen that displays the CoolMovies logo and a loader.
 
-1. List all the available movies, showing at least the title
-2. Tapping on a movie must open a view page presenting all the available information to the user
-3. Each movie page must display all its reviews
-4. Each review should consist of (at least): title, body and stars (1-5)
-5. The user should be able to create new reviews
+![1](https://github.com/user-attachments/assets/0e6bbee1-1578-4ddf-ab62-28f8dacd4ab6)
 
-## Plus
-Consider adding the features below if you feel confortable and have the time
+2. **Main Page**  
+   A scrollable list of movie cards, showcasing available movies with titles and posters.
 
-- user should be able to see the reviews and the movies even if offline
-- user should be able to create reviews offline and sync them when online
+![2](https://github.com/user-attachments/assets/4f988e36-6701-41b0-a14e-efdc9ac96af6)
 
-Anything else is up to you (animations, assets, 3rd party dependencies, etc). We will consider all your additions so don't stick to the minimum!
+3. **Movie Detail Page**  
+   Displays detailed information about a specific movie, including reviews and ratings. Users can also create new reviews directly from this page.
 
-Good luck!
+![3](https://github.com/user-attachments/assets/6695ad3e-8c92-45ec-ac84-c7096dfe2b70)
+
+4. **Review Modal**  
+   When creating a review, users are presented with a modal where they can rate the movie (0-5 stars), add a title, and write a description.
+
+![4](https://github.com/user-attachments/assets/36ce0a79-97ce-4ae5-b735-feae5c2929cc)
+
+5. **Error Screen**  
+   In case of connectivity issues, a black screen with a "No Wi-Fi" icon and a "Something went wrong" message appears, along with a retry button to reload the content.
+
+![5](https://github.com/user-attachments/assets/348c5c4b-1333-4346-af4b-bb74a75f6ff5)
+
+
